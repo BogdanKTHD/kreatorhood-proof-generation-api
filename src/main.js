@@ -4,12 +4,8 @@ import listEndpoints from 'express-list-endpoints'
 
 import config from './config/globals'
 // import api from './api'
-import logger from './config/logger'
+// import logger from './config/logger'
 import indexRoutes from './routes'
-
-// SWAGGER
-const swaggerJsDoc = require('swagger-jsdoc')
-const swaggerUi = require('swagger-ui-express')
 
 // creating express server
 const app = express()
@@ -21,31 +17,6 @@ app.use(
     extended: false
   })
 )
-
-// defining swagger options
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      version: '1.0.0',
-      title: 'Proof generation API',
-      description: `The Proof Generation API primarily helps the Matic SDK by executing a few heavy processes
-       on a dedicated backend server. Proof generation and block inclusion check are some of the endpoints
-       on this proof generation API. The logic behind these API's involves making several RPC calls to the Polygon
-       chain in order to generate the proof or check block checkpoint inclusion.`,
-      contact: {
-        name: 'Nitin Mittal'
-      },
-      servers: ['http://localhost:3000']
-    },
-    basePath: '/api/v1',
-    host: 'apis.matic.network',
-    schemes: ['https']
-  },
-  apis: ['./src/routes/v1.js']
-}
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions)
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 // APIs
 app.use('/api', indexRoutes)
@@ -83,15 +54,15 @@ app.use((error, req, res, next) => {
 })
 
 // list endpoints
-logger.info('-----------------------------------------')
-listEndpoints(app).forEach((c) => {
-  logger.info(`${c.methods.join(',')} -> ${c.path}`)
-})
-logger.info('-----------------------------------------')
+// logger.info('-----------------------------------------')
+// listEndpoints(app).forEach((c) => {
+//   logger.info(`${c.methods.join(',')} -> ${c.path}`)
+// })
+// logger.info('-----------------------------------------')
 
 // start app server
 app.listen(config.app.port, function() {
-  logger.info(
+  console.log(
     `Proof Generation API server has started on port ${config.app.port}`
   )
 })

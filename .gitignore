@@ -10,3 +10,5 @@ pids/
 config.yml
 report.*.*.*
 .github/workflows/
+.idea
+package-lock.json

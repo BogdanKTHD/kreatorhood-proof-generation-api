@@ -2,14 +2,12 @@ import config from '../config/globals'
 import errorTypes from '../config/errorTypes'
 import { initMatic, convert } from '../helpers/maticClient'
 import { InfoError } from '../helpers/errorHelper'
-import logger from '../config/logger'
+// import logger from '../config/logger'
 
 const mainnetRPCLength = config.app.maticRPC.length // total mainnet rpcs
 const mainnetMaxRetries = 2 * mainnetRPCLength // max mainnet retries
 const testnetRPCLength = config.app.mumbaiRPC.length // total testnet rpcs
 const testnetMaxRetries = 2 * testnetRPCLength // max testnet retries
-const testnetAmoyRPCLength = config.app.amoyRPC.length // total amoy testnet rpcs
-const testnetAmoyMaxRetries = 2 * testnetAmoyRPCLength // max amoy testnet retries
 
 function getVersionDetails(version) {
   switch (version) {
@@ -24,12 +22,6 @@ function getVersionDetails(version) {
       maticRPC: config.app.mumbaiRPC,
       maxRetries: testnetMaxRetries,
       rpcLength: testnetRPCLength
-    }
-    case 'amoy': return {
-      ethereumRPC: config.app.sepoliaRPC,
-      maticRPC: config.app.amoyRPC,
-      maxRetries: testnetAmoyMaxRetries,
-      rpcLength: testnetAmoyRPCLength
     }
     default: return {
       ethereumRPC: config.app.ethereumRPC,
@@ -177,12 +169,12 @@ export async function generateExitPayload(
   let result
   let isCheckpointed
 
-  logger.info(`max retries ${maxRetries}`)
+  // logger.info(`max retries ${maxRetries}`)
 
   // loop over rpcs to retry in case of an in case of an rpc error
   for (let i = 0; i < maxRetries; i++) {
     const rpcIndex = (initialRpcIndex + i) % rpcLength
-    logger.info(`rpcIndex ${rpcIndex}`)
+    // logger.info(`rpcIndex ${rpcIndex}`)
     try {
       // initialize matic client
       const maticClient = await initMatic(
@@ -194,11 +186,11 @@ export async function generateExitPayload(
 
       // check for checkpoint
       try {
-        logger.info(`Checking for checkpoint status${burnTxHash}`)
+        // logger.info(`Checking for checkpoint status${burnTxHash}`)
         isCheckpointed = await maticClient.exitUtil.isCheckPointed(burnTxHash)
-        logger.info(isCheckpointed)
+        // logger.info(isCheckpointed)
       } catch (error) {
-        logger.error(error)
+        // logger.error(error)
         if (i === maxRetries - 1) {
           throw new InfoError(
             errorTypes.IncorrectTx,
@@ -223,7 +215,7 @@ export async function generateExitPayload(
           tokenIndex
         )
       } catch (error) {
-        logger.error(error)
+        // logger.error(error)
         if (
           error.message ===
           'Index is grater than the number of tokens in this transaction'
@@ -281,12 +273,12 @@ export async function generateAllExitPayloads(
   let result
   let isCheckpointed
 
-  logger.info(`max retries ${maxRetries}, ${ethereumRPC}`)
+  // logger.info(`max retries ${maxRetries}, ${ethereumRPC}`)
 
   // loop over rpcs to retry in case of an in case of an rpc error
   for (let i = 0; i < maxRetries; i++) {
     const rpcIndex = (initialRpcIndex + i) % rpcLength
-    logger.info(`rpcIndex ${rpcIndex}`)
+    // logger.info(`rpcIndex ${rpcIndex}`)
     try {
       // initialize matic client
       const maticClient = await initMatic(
@@ -298,11 +290,11 @@ export async function generateAllExitPayloads(
 
       // check for checkpoint
       try {
-        logger.info(`Checking for checkpoint status${burnTxHash}`)
+        // logger.info(`Checking for checkpoint status${burnTxHash}`)
         isCheckpointed = await maticClient.exitUtil.isCheckPointed(burnTxHash)
-        logger.info(isCheckpointed)
+        // logger.info(isCheckpointed)
       } catch (error) {
-        logger.error(error)
+        // logger.error(error)
         if (i === maxRetries - 1) {
           throw new InfoError(
             errorTypes.IncorrectTx,
@@ -341,7 +333,7 @@ export async function generateAllExitPayloads(
 
       break
     } catch (error) {
-      logger.error(error)
+      // logger.error(error)
       if (
         error.type === errorTypes.TxNotCheckpointed ||
         error.type === errorTypes.IncorrectTx ||

@@ -24,7 +24,7 @@ export default {
       if (error instanceof InfoError) {
         handleError({ res, statusCode: 404, err: error })
       } else {
-        logger.error('error in isBlockIncluded controller\n', error)
+        // logger.error('error in isBlockIncluded controller\n', error)
         handleError({ res })
       }
     }
