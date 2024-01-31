@@ -1,7 +1,7 @@
 // validate parameters received
 
 import { handleBadRequest, handleError } from '../helpers/responseHandlers'
-// import logger from '../config/logger'
+import logger from '../config/logger'
 
 export default {
   /**
@@ -26,28 +26,7 @@ export default {
       }
       next()
     } catch (error) {
-      // logger.error('error in validateV1NetworkParam', error)
-      handleError({
-        res,
-        errMsg: 'Something went wrong while validating params'
-      })
-    }
-  },
-
-  // network params validation for zkEVM
-  validateZkEVMNetworkParam: (req, res, next) => {
-    const network = req.params.network
-    try {
-      // network can either be matic or mumbai
-      if (network !== 'mainnet' && network !== 'testnet' && network !== 'cherry' && network !== 'blueberry' && network !== 'cardona') {
-        return handleBadRequest({
-          res,
-          errMsg: `Invalid network ${network}. Network can either be mainnet or testnet or version including blueberry, cherry or cardona for zkEVM routes`
-        })
-      }
-      next()
-    } catch (error) {
-      // logger.error('error in validateZkEVMNetworkParam', error)
+      logger.error('error in validateV1NetworkParam', error)
       handleError({
         res,
         errMsg: 'Something went wrong while validating params'
@@ -68,7 +47,7 @@ export default {
       }
       next()
     } catch (error) {
-      // logger.error('error in validateBlockIncluded Params', error)
+      logger.error('error in validateBlockIncluded Params', error)
       handleError({
         res,
         errMsg: 'Something went wrong while validating params'
@@ -101,7 +80,7 @@ export default {
       }
       next()
     } catch (error) {
-      // logger.error('error in validateFastMerkleProof Params', error)
+      logger.error('error in validateFastMerkleProof Params', error)
       handleError({
         res,
         errMsg: 'Something went wrong while validating params'
@@ -137,29 +116,7 @@ export default {
       }
       next()
     } catch (error) {
-      // logger.error('error in validateExitPayload Params', error)
-      handleError({
-        res,
-        errMsg: 'Something went wrong while validating params'
-      })
-    }
-  },
-
-  // zkEVM params validation
-  validateZkEVMParams: (req, res, next) => {
-    const networkID = req.query.net_id
-    const depositCount = req.query.deposit_cnt
-    try {
-      // block number must be an integer
-      if (!isInteger(networkID) && !isInteger(depositCount)) {
-        return handleBadRequest({
-          res,
-          errMsg: 'Invalid network ID or deposit count!'
-        })
-      }
-      next()
-    } catch (error) {
-      // logger.error('error in validateZkEVMParams Params', error)
+      logger.error('error in validateExitPayload Params', error)
       handleError({
         res,
         errMsg: 'Something went wrong while validating params'
