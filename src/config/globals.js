@@ -6,7 +6,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default {
   app: {
     name: process.env.NAME || 'Proof Generation API',
-    port: parseInt(process.env.PORT || 5000, 10),
+    port: parseInt(process.env.PORT || 4006, 10),
     ethereumRPC: JSON.parse(process.env.ETHEREUM_RPC),
     goerliRPC: JSON.parse(process.env.GOERLI_RPC),
     sepoliaRPC: JSON.parse(process.env.SEPOLIA_RPC),
